@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: demo-app
+  namespace: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+        - name: demo-app
+          image: ghcr.io/ohmoomtang/demo-app:latest
+          ports:
+            - containerPort: 3000
+  strategy:
+    canary:
+      canaryService: demo-app-canary
+      stableService: demo-app
+      trafficRouting:
+        nginx:
+          stableIngress: demo-app
+      steps:
+        - setWeight: 20
+        - pause: { duration: 30s }
+        - setWeight: 50
+        - pause: { duration: 30s }
+        - setWeight: 100
