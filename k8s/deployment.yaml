@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: ghcr.io/ohmoomtang/demo-app:latest
+          image: ghcr.io/ohmoomtang/demo-app:fba3a7ca1e5ba4c055bad3fe5f620712fdf6d20d
           ports:
             - containerPort: 3000
   strategy:
